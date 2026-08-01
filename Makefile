@@ -1,4 +1,4 @@
-.PHONY: start stop restart logs init-kafka init-clickhouse dbt-run dbt-test test lint
+.PHONY: start stop restart logs init-kafka init-clickhouse ingest-latest dbt-run dbt-test test lint
 
 # ── Stack lifecycle ────────────────────────────────────────────────────────
 
@@ -39,6 +39,9 @@ init-clickhouse:
 	@cat sql/clickhouse/003_materialized_views.sql | \
 		docker compose exec -T clickhouse clickhouse-client --database payments --multiquery
 	@echo "  Schemas applied."
+
+ingest-latest:
+	bash scripts/ingest_latest.sh
 
 # ── dbt ───────────────────────────────────────────────────────────────────
 

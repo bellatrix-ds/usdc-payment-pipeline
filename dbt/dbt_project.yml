@@ -1,0 +1,14 @@
+name: usdc_pipeline
+version: "1.0.0"
+config-version: 2
+profile: usdc_pipeline
+model-paths: ["models"]
+
+models:
+  usdc_pipeline:
+    staging:
+      +materialized: view
+    intermediate:
+      +materialized: view
+    marts:
+      +materialized: table

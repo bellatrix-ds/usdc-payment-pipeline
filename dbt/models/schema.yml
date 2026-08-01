@@ -1,0 +1,17 @@
+version: 2
+
+models:
+  - name: fct_transfers
+    columns:
+      - name: event_id
+        tests:
+          - unique
+          - not_null
+      - name: amount_raw
+        tests:
+          - not_null
+      - name: size_bucket
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['micro', 'small', 'medium', 'large', 'whale', 'mega']

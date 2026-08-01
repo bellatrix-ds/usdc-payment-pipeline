@@ -20,6 +20,7 @@ x-airflow-common: &airflow-common
   volumes:
     - ./airflow/dags:/opt/airflow/dags
     - ./src:/opt/airflow/src
+    - ./dbt:/opt/airflow/dbt
     - airflow-logs:/opt/airflow/logs
   depends_on:
     postgres:
@@ -57,10 +58,10 @@ services:
       - "9000:9000"   # Native TCP interface
     volumes:
       - clickhouse-data:/var/lib/clickhouse
+      - ./clickhouse/users.d:/etc/clickhouse-server/users.d
     environment:
       CLICKHOUSE_DB: payments
       CLICKHOUSE_USER: default
-      CLICKHOUSE_SKIP_USER_SETUP: 1
     healthcheck:
       test: ["CMD", "wget", "--spider", "-q", "http://localhost:8123/ping"]
       interval: 10s
@@ -125,9 +126,12 @@ services:
       - "3000:3000"
     volumes:
       - grafana-data:/var/lib/grafana
+      - ./dashboards/grafana/provisioning:/etc/grafana/provisioning
+      - ./dashboards/grafana/dashboards:/var/lib/grafana/dashboards
     environment:
       GF_SECURITY_ADMIN_PASSWORD: admin
       GF_USERS_ALLOW_SIGN_UP: "false"
+      GF_INSTALL_PLUGINS: grafana-clickhouse-datasource
 
 volumes:
   clickhouse-data:

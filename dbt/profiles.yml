@@ -1,0 +1,11 @@
+usdc_pipeline:
+  target: dev
+  outputs:
+    dev:
+      type: clickhouse
+      schema: payments
+      host: "{{ env_var('CLICKHOUSE_HOST', 'localhost') }}"
+      port: 8123
+      user: default
+      password: ""
+      secure: false

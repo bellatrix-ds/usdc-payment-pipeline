@@ -1,0 +1,10 @@
+version: 2
+
+sources:
+  - name: payments
+    schema: payments
+    tables:
+      - name: raw_transfers
+        description: "Append-only landing zone from Kafka consumer"
+      - name: fct_transfers
+        description: "Deduplicated transfers via ReplacingMergeTree"
