@@ -1,5 +1,34 @@
+x-airflow-common: &airflow-common
+  build:
+    context: .
+    dockerfile: airflow/Dockerfile
+  environment: &airflow-common-env
+    AIRFLOW__CORE__EXECUTOR: LocalExecutor
+    AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+    AIRFLOW__CORE__FERNET_KEY: "81HqDtbqAywKSOumSha3BhWNOdQ26slT6K0YaZeZyPs="
+    AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+    AIRFLOW__WEBSERVER__SECRET_KEY: "usdc-pipeline-secret"
+    AIRFLOW__LOGGING__LOGGING_LEVEL: WARNING
+    # Pipeline env vars — Airflow tasks talk to internal Docker hostnames
+    ALCHEMY_BASE_RPC_URL: ${ALCHEMY_BASE_RPC_URL}
+    KAFKA_BOOTSTRAP_SERVERS: redpanda:9092
+    CLICKHOUSE_HOST: clickhouse
+    CLICKHOUSE_PORT: "8123"
+    CLICKHOUSE_DATABASE: payments
+    CLICKHOUSE_USER: default
+    CLICKHOUSE_PASSWORD: ""
+  volumes:
+    - ./airflow/dags:/opt/airflow/dags
+    - ./src:/opt/airflow/src
+    - airflow-logs:/opt/airflow/logs
+  depends_on:
+    postgres:
+      condition: service_healthy
+
 services:
-  kafka:
+
+  # ── Kafka (Redpanda — Zookeeper-free) ────────────────────────────────────
+  redpanda:
     image: redpandadata/redpanda:v24.3.5
     command:
       - redpanda
@@ -13,22 +42,95 @@ services:
       - --advertise-kafka-addr=PLAINTEXT://localhost:9092
     ports:
       - "9092:9092"
+      - "9644:9644"   # Redpanda admin API
+    healthcheck:
+      test: ["CMD", "rpk", "cluster", "info"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
 
+  # ── ClickHouse ────────────────────────────────────────────────────────────
   clickhouse:
     image: clickhouse/clickhouse-server:25.3
     ports:
-      - "8123:8123"
-      - "9000:9000"
+      - "8123:8123"   # HTTP interface
+      - "9000:9000"   # Native TCP interface
     volumes:
       - clickhouse-data:/var/lib/clickhouse
+    environment:
+      CLICKHOUSE_DB: payments
+      CLICKHOUSE_USER: default
+      CLICKHOUSE_SKIP_USER_SETUP: 1
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8123/ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
 
+  # ── Postgres (Airflow metadata DB) ───────────────────────────────────────
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "airflow"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  # ── Airflow init (one-shot — runs db migrate + creates admin user) ────────
+  airflow-init:
+    <<: *airflow-common
+    command: >
+      bash -c "
+        airflow db migrate &&
+        airflow users create
+          --username admin
+          --firstname Admin
+          --lastname User
+          --role Admin
+          --email admin@example.com
+          --password admin 2>/dev/null || true
+      "
+    restart: "no"
+
+  # ── Airflow webserver ─────────────────────────────────────────────────────
+  airflow-webserver:
+    <<: *airflow-common
+    command: webserver
+    ports:
+      - "8081:8080"
+    restart: unless-stopped
+    depends_on:
+      airflow-init:
+        condition: service_completed_successfully
+
+  # ── Airflow scheduler ─────────────────────────────────────────────────────
+  airflow-scheduler:
+    <<: *airflow-common
+    command: scheduler
+    restart: unless-stopped
+    depends_on:
+      airflow-init:
+        condition: service_completed_successfully
+
+  # ── Grafana ───────────────────────────────────────────────────────────────
   grafana:
     image: grafana/grafana:11.5.2
     ports:
       - "3000:3000"
     volumes:
       - grafana-data:/var/lib/grafana
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_USERS_ALLOW_SIGN_UP: "false"
 
 volumes:
   clickhouse-data:
   grafana-data:
+  postgres-data:
+  airflow-logs:
