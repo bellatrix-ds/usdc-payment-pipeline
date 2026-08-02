@@ -106,7 +106,10 @@ def flush(client: Any, consumer: Any, buffer: list[dict]) -> int:
     if not buffer:
         return 0
 
-    column_names, rows = buffer_to_rows(buffer)
+    unique_messages = list(
+        {message["event_id"]: message for message in buffer}.values()
+    )
+    column_names, rows = buffer_to_rows(unique_messages)
     try:
         client.insert("raw_transfers", rows, column_names)
         consumer.commit(asynchronous=False)

@@ -116,6 +116,9 @@ def publish_to_kafka(logs: list[dict]) -> int:
     for log in logs:
         try:
             decoded = decode_transfer_log(log)
+            if decoded is None:
+                print("Skipping non-Transfer event", file=sys.stderr)
+                continue
             message = {
                 **decoded,
                 "event_id": make_event_id(

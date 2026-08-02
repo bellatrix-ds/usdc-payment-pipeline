@@ -1,7 +1,5 @@
 {
-  "annotations": {
-    "list": []
-  },
+  "annotations": {"list": []},
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
@@ -9,475 +7,171 @@
   "links": [],
   "panels": [
     {
-      "datasource": {
-        "type": "grafana-clickhouse-datasource",
-        "uid": "clickhouse-uid"
+      "description": "Dashboard ownership and engineering contact information.",
+      "gridPos": {"h": 5, "w": 24, "x": 0, "y": 0},
+      "id": 100,
+      "options": {
+        "code": {"language": "plaintext", "showLineNumbers": false, "showMiniMap": false},
+        "content": "<div style=\"display:flex;align-items:center;flex-wrap:nowrap;white-space:nowrap;width:100%;height:100%;overflow:hidden;box-sizing:border-box;padding:8px 16px;background:#181b1f;border-bottom:2px solid #5794F2;border-radius:8px;color:#fff;font-family:Inter,DM Sans,Roboto,sans-serif;\"><img src=\"https://raw.githubusercontent.com/bellatrix-ds/usdc-payment-pipeline/main/dashboards/grafana/dashboards/profile..jpg\" width=\"70\" height=\"70\" style=\"border-radius:50%; object-fit:cover; border:2px solid #5794F2;\" onerror=\"this.src='https://ui-avatars.com/api/?name=Bella+Bahrami&size=70&background=5794F2&color=fff&rounded=true'\"/><div style=\"line-height:1.25;margin-left:12px;\"><div style=\"font-size:16px;font-weight:700;color:#fff;\">Bella Bahrami</div><div style=\"font-size:12px;color:#5794F2;\">Senior Data Engineer</div></div><div style=\"flex:1 1 auto;min-width:20px;\"></div><a href=\"mailto:bellabahramii@gmail.com\" style=\"color:#aaa;font-size:12px;text-decoration:none;margin-left:20px;\">📧 Email: bellabahramii@gmail.com</a><a href=\"https://t.me/bella_trickss\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color:#aaa;font-size:12px;text-decoration:none;margin-left:20px;\">✈️ Telegram: @bella_trickss</a><a href=\"https://github.com/bellatrix-ds\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color:#aaa;font-size:12px;text-decoration:none;margin-left:20px;\">💼 GitHub: bellatrix-ds</a></div>",
+        "mode": "html"
       },
-      "fieldConfig": {
-        "defaults": {
-          "decimals": 2,
-          "unit": "currencyUSD"
-        },
-        "overrides": []
+      "pluginVersion": "11.5.2",
+      "title": "",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "gridPos": {"h": 3, "w": 24, "x": 0, "y": 5},
+      "id": 101,
+      "options": {
+        "code": {"language": "plaintext", "showLineNumbers": false, "showMiniMap": false},
+        "content": "<div style=\"padding: 16px 24px; font-family: Inter, DM Sans, sans-serif; color: #d0d0d0; font-size: 13px; line-height: 2;\"><div style=\"margin-bottom: 6px;\"><span style=\"color:#5794F2; font-weight:700; font-size:15px;\">USDC Payment Pipeline — Base Chain Analytics</span></div><div style=\"margin-bottom: 4px;\">📊 <span style=\"color:#aaa;\">About:</span> Real-time monitoring of USDC Transfer events on Base Chain.</div><div style=\"margin-bottom: 4px;\">⚙️ <span style=\"color:#aaa;\">Tech Stack:</span> Python · ClickHouse · dbt · Apache Airflow · Grafana · Docker</div><div>🔄 <span style=\"color:#aaa;\">Pipeline:</span> Alchemy RPC → Kafka Topic → ClickHouse MergeTree → dbt (staging → intermediate → marts) → Grafana</div></div>",
+        "mode": "html"
       },
-      "gridPos": {
-        "h": 4,
-        "w": 6,
-        "x": 0,
-        "y": 0
-      },
+      "pluginVersion": "11.5.2",
+      "title": "",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "datasource": {"type": "grafana-clickhouse-datasource", "uid": "clickhouse-uid"},
+      "description": "Gross USDC value transferred through the Base payment pipeline during the 14-day monitoring window.",
+      "fieldConfig": {"defaults": {"color": {"fixedColor": "#5794F2", "mode": "fixed"}, "decimals": 2, "thresholds": {"mode": "absolute", "steps": [{"color": "#E02F44", "value": null}, {"color": "#F2CC0C", "value": 500000}, {"color": "#73BF69", "value": 1000000}]}, "unit": "currencyUSD"}, "overrides": []},
+      "gridPos": {"h": 4, "w": 4, "x": 0, "y": 8},
       "id": 1,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": ["lastNotNull"],
-          "fields": "",
-          "values": false
-        },
-        "textMode": "auto"
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "grafana-clickhouse-datasource",
-            "uid": "clickhouse-uid"
-          },
-          "format": "table",
-          "queryType": "sql",
-          "rawSql": "SELECT sum(toFloat64(amount_usdc)) as value FROM payments.fct_transfers",
-          "refId": "A"
-        }
-      ],
-      "title": "Total USDC Volume",
-      "type": "stat"
+      "options": {"colorMode": "value", "graphMode": "area", "justifyMode": "auto", "orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": false}, "text": {"titleSize": 13, "valueSize": 30}, "textMode": "auto"},
+      "targets": [{"datasource": {"type": "grafana-clickhouse-datasource", "uid": "clickhouse-uid"}, "format": 1, "queryType": "sql", "rawSql": "SELECT sum(toFloat64(amount_raw)) / 1000000 AS value FROM payments.raw_transfers", "refId": "A"}],
+      "title": "Total USDC Volume (14d)", "type": "stat"
     },
     {
-      "datasource": {
-        "type": "grafana-clickhouse-datasource",
-        "uid": "clickhouse-uid"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 6,
-        "x": 6,
-        "y": 0
-      },
+      "datasource": {"type": "grafana-clickhouse-datasource", "uid": "clickhouse-uid"},
+      "description": "Total raw USDC Transfer events ingested during the 14-day monitoring window.",
+      "fieldConfig": {"defaults": {"color": {"fixedColor": "#5794F2", "mode": "fixed"}, "unit": "short"}, "overrides": []},
+      "gridPos": {"h": 4, "w": 4, "x": 4, "y": 8},
       "id": 2,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": ["lastNotNull"],
-          "fields": "",
-          "values": false
-        },
-        "textMode": "auto"
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "grafana-clickhouse-datasource",
-            "uid": "clickhouse-uid"
-          },
-          "format": "table",
-          "queryType": "sql",
-          "rawSql": "SELECT count() as value FROM payments.fct_transfers",
-          "refId": "A"
-        }
-      ],
-      "title": "Total Transfers",
-      "type": "stat"
+      "options": {"colorMode": "value", "graphMode": "area", "justifyMode": "auto", "orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": false}, "text": {"titleSize": 13, "valueSize": 30}, "textMode": "auto"},
+      "targets": [{"datasource": {"type": "grafana-clickhouse-datasource", "uid": "clickhouse-uid"}, "format": 1, "queryType": "sql", "rawSql": "SELECT count() AS value FROM payments.raw_transfers", "refId": "A"}],
+      "title": "Total Transfers (14d)", "type": "stat"
     },
     {
-      "datasource": {
-        "type": "grafana-clickhouse-datasource",
-        "uid": "clickhouse-uid"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 6,
-        "x": 12,
-        "y": 0
-      },
+      "datasource": {"type": "grafana-clickhouse-datasource", "uid": "clickhouse-uid"},
+      "description": "Distinct source wallets that sent USDC during the monitoring window.",
+      "fieldConfig": {"defaults": {"color": {"fixedColor": "#5794F2", "mode": "fixed"}, "unit": "short"}, "overrides": []},
+      "gridPos": {"h": 4, "w": 4, "x": 8, "y": 8},
       "id": 3,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": ["lastNotNull"],
-          "fields": "",
-          "values": false
-        },
-        "textMode": "auto"
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "grafana-clickhouse-datasource",
-            "uid": "clickhouse-uid"
-          },
-          "format": "table",
-          "queryType": "sql",
-          "rawSql": "SELECT uniqExact(from_address) as value FROM payments.fct_transfers",
-          "refId": "A"
-        }
-      ],
-      "title": "Unique Senders",
-      "type": "stat"
+      "options": {"colorMode": "value", "graphMode": "area", "justifyMode": "auto", "orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": false}, "text": {"titleSize": 13, "valueSize": 30}, "textMode": "auto"},
+      "targets": [{"datasource": {"type": "grafana-clickhouse-datasource", "uid": "clickhouse-uid"}, "format": 1, "queryType": "sql", "rawSql": "SELECT uniq(from_address) AS value FROM payments.raw_transfers", "refId": "A"}],
+      "title": "Unique Senders", "type": "stat"
     },
     {
-      "datasource": {
-        "type": "grafana-clickhouse-datasource",
-        "uid": "clickhouse-uid"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "decimals": 2,
-          "unit": "currencyUSD"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 6,
-        "x": 18,
-        "y": 0
-      },
+      "datasource": {"type": "grafana-clickhouse-datasource", "uid": "clickhouse-uid"},
+      "description": "Average USDC value per transfer across the raw event stream.",
+      "fieldConfig": {"defaults": {"color": {"fixedColor": "#5794F2", "mode": "fixed"}, "decimals": 2, "unit": "currencyUSD"}, "overrides": []},
+      "gridPos": {"h": 4, "w": 4, "x": 12, "y": 8},
       "id": 4,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": ["lastNotNull"],
-          "fields": "",
-          "values": false
-        },
-        "textMode": "auto"
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "grafana-clickhouse-datasource",
-            "uid": "clickhouse-uid"
-          },
-          "format": "table",
-          "queryType": "sql",
-          "rawSql": "SELECT avg(toFloat64(amount_usdc)) as value FROM payments.fct_transfers",
-          "refId": "A"
-        }
-      ],
-      "title": "Avg Transfer Size",
-      "type": "stat"
+      "options": {"colorMode": "value", "graphMode": "area", "justifyMode": "auto", "orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": false}, "text": {"titleSize": 13, "valueSize": 30}, "textMode": "auto"},
+      "targets": [{"datasource": {"type": "grafana-clickhouse-datasource", "uid": "clickhouse-uid"}, "format": 1, "queryType": "sql", "rawSql": "SELECT avg(toFloat64(amount_raw)) / 1000000 AS value FROM payments.raw_transfers", "refId": "A"}],
+      "title": "Avg Transfer Size (USDC)", "type": "stat"
     },
     {
-      "datasource": {
-        "type": "grafana-clickhouse-datasource",
-        "uid": "clickhouse-uid"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "decimals": 2,
-          "unit": "currencyUSD"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 4
-      },
+      "datasource": {"type": "grafana-clickhouse-datasource", "uid": "clickhouse-uid"},
+      "description": "Maximum consolidated USDC volume observed in any hourly bucket.",
+      "fieldConfig": {"defaults": {"color": {"fixedColor": "#5794F2", "mode": "fixed"}, "decimals": 2, "unit": "currencyUSD"}, "overrides": []},
+      "gridPos": {"h": 4, "w": 4, "x": 16, "y": 8},
       "id": 5,
-      "options": {
-        "barRadius": 0,
-        "barWidth": 0.8,
-        "groupWidth": 0.7,
-        "legend": {
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "orientation": "auto",
-        "showValue": "auto",
-        "xField": "hour",
-        "xTickLabelRotation": 0,
-        "xTickLabelSpacing": 0
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "grafana-clickhouse-datasource",
-            "uid": "clickhouse-uid"
-          },
-          "format": 1,
-          "queryType": "sql",
-          "rawSql": "SELECT hour, toFloat64(volume_usdc) as volume_usdc FROM payments.fct_hourly_activity ORDER BY hour DESC LIMIT 24",
-          "refId": "A"
-        }
-      ],
-      "title": "Volume by Hour",
-      "type": "barchart"
+      "options": {"colorMode": "value", "graphMode": "area", "justifyMode": "auto", "orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": false}, "text": {"titleSize": 13, "valueSize": 30}, "textMode": "auto"},
+      "targets": [{"datasource": {"type": "grafana-clickhouse-datasource", "uid": "clickhouse-uid"}, "format": 1, "queryType": "sql", "rawSql": "SELECT max(toFloat64(volume_usdc)) AS value FROM payments.fct_hourly_activity", "refId": "A"}],
+      "title": "Peak Hourly Volume", "type": "stat"
     },
     {
-      "datasource": {
-        "type": "grafana-clickhouse-datasource",
-        "uid": "clickhouse-uid"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 4
-      },
+      "description": "Current operational state of the payment analytics pipeline.",
+      "gridPos": {"h": 4, "w": 4, "x": 20, "y": 8},
       "id": 6,
-      "options": {
-        "barRadius": 0,
-        "barWidth": 0.8,
-        "groupWidth": 0.7,
-        "legend": {
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "orientation": "auto",
-        "showValue": "auto",
-        "xField": "hour",
-        "xTickLabelRotation": 0,
-        "xTickLabelSpacing": 0
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "grafana-clickhouse-datasource",
-            "uid": "clickhouse-uid"
-          },
-          "format": 1,
-          "queryType": "sql",
-          "rawSql": "SELECT hour, transfer_count FROM payments.fct_hourly_activity ORDER BY hour DESC LIMIT 24",
-          "refId": "A"
-        }
-      ],
-      "title": "Transfer Count by Hour",
-      "type": "barchart"
+      "options": {"code": {"language": "plaintext", "showLineNumbers": false, "showMiniMap": false}, "content": "<div style=\"display:flex;align-items:center;justify-content:center;height:100%;background:#111217;border-radius:8px;color:#73BF69;font-size:18px;font-weight:bold;font-family:Inter,DM Sans,Roboto,sans-serif;\">● PIPELINE ONLINE</div>", "mode": "html"},
+      "pluginVersion": "11.5.2", "title": "Pipeline Status", "type": "text"
     },
     {
-      "datasource": {
-        "type": "grafana-clickhouse-datasource",
-        "uid": "clickhouse-uid"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 12
-      },
-      "id": 7,
-      "options": {
-        "displayLabels": ["name", "percent"],
-        "legend": {
-          "displayMode": "list",
-          "placement": "right",
-          "showLegend": true
-        },
-        "pieType": "pie",
-        "reduceOptions": {
-          "calcs": ["lastNotNull"],
-          "fields": "",
-          "values": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "grafana-clickhouse-datasource",
-            "uid": "clickhouse-uid"
-          },
-          "format": 1,
-          "queryType": "sql",
-          "rawSql": "SELECT size_bucket, count() as count FROM payments.fct_transfers GROUP BY size_bucket",
-          "refId": "A"
-        }
-      ],
-      "title": "Transfer Count by Size Bucket",
-      "type": "piechart"
+      "datasource": {"type": "grafana-clickhouse-datasource", "uid": "clickhouse-uid"},
+      "description": "Aggregated volume by hour of day — identifies peak trading hours",
+      "fieldConfig": {"defaults": {"color": {"fixedColor": "#5794F2", "mode": "fixed"}, "custom": {"axisGridShow": true, "axisSoftMin": 0, "fillOpacity": 85}, "decimals": 2, "unit": "currencyUSD"}, "overrides": [{"matcher": {"id": "byName", "options": "hour_of_day"}, "properties": [{"id": "unit", "value": "none"}, {"id": "decimals", "value": 0}]}]},
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 12}, "id": 9,
+      "options": {"barRadius": 3, "barWidth": 0.8, "groupWidth": 0.7, "legend": {"displayMode": "list", "placement": "bottom", "showLegend": true}, "orientation": "auto", "showValue": "auto", "xAxis": {"format": "0", "timeUnit": "hour"}, "xField": "hour_of_day", "xTickLabelRotation": 0, "xTickLabelSpacing": 0},
+      "targets": [{"datasource": {"type": "grafana-clickhouse-datasource", "uid": "clickhouse-uid"}, "format": 1, "queryType": "sql", "rawSql": "SELECT toHour(hour) AS hour_of_day, sum(toFloat64(volume_usdc)) AS \"Volume (USDC)\" FROM payments.fct_hourly_activity GROUP BY hour_of_day ORDER BY hour_of_day ASC", "refId": "A"}],
+      "title": "Volume by Hour of Day", "type": "barchart"
     },
     {
-      "datasource": {
-        "type": "grafana-clickhouse-datasource",
-        "uid": "clickhouse-uid"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "decimals": 2,
-          "unit": "currencyUSD"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 12
-      },
-      "id": 8,
-      "options": {
-        "displayLabels": ["name", "percent"],
-        "legend": {
-          "displayMode": "list",
-          "placement": "right",
-          "showLegend": true
-        },
-        "pieType": "pie",
-        "reduceOptions": {
-          "calcs": ["lastNotNull"],
-          "fields": "",
-          "values": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "grafana-clickhouse-datasource",
-            "uid": "clickhouse-uid"
-          },
-          "format": 1,
-          "queryType": "sql",
-          "rawSql": "SELECT size_bucket, sum(toFloat64(amount_usdc)) as volume FROM payments.fct_transfers GROUP BY size_bucket",
-          "refId": "A"
-        }
-      ],
-      "title": "Volume by Size Bucket",
-      "type": "piechart"
+      "datasource": {"type": "grafana-clickhouse-datasource", "uid": "clickhouse-uid"},
+      "description": "Transfer frequency by hour — shows market activity patterns",
+      "fieldConfig": {"defaults": {"color": {"fixedColor": "#73BF69", "mode": "fixed"}, "custom": {"axisGridShow": true, "axisSoftMin": 0, "fillOpacity": 85}, "unit": "short"}, "overrides": [{"matcher": {"id": "byName", "options": "hour_of_day"}, "properties": [{"id": "unit", "value": "none"}, {"id": "decimals", "value": 0}]}]},
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 12}, "id": 10,
+      "options": {"barRadius": 3, "barWidth": 0.8, "groupWidth": 0.7, "legend": {"displayMode": "list", "placement": "bottom", "showLegend": true}, "orientation": "auto", "showValue": "auto", "xAxis": {"format": "0", "timeUnit": "hour"}, "xField": "hour_of_day", "xTickLabelRotation": 0, "xTickLabelSpacing": 0},
+      "targets": [{"datasource": {"type": "grafana-clickhouse-datasource", "uid": "clickhouse-uid"}, "format": 1, "queryType": "sql", "rawSql": "SELECT toHour(hour) AS hour_of_day, sum(transfer_count) AS \"Transfers\" FROM payments.fct_hourly_activity GROUP BY hour_of_day ORDER BY hour_of_day ASC", "refId": "A"}],
+      "title": "Transfer Count by Hour of Day", "type": "barchart"
     },
     {
-      "datasource": {
-        "type": "grafana-clickhouse-datasource",
-        "uid": "clickhouse-uid"
-      },
-      "fieldConfig": {
-        "defaults": {},
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "volume_usdc"
-            },
-            "properties": [
-              {
-                "id": "unit",
-                "value": "currencyUSD"
-              },
-              {
-                "id": "decimals",
-                "value": 2
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "avg_usdc"
-            },
-            "properties": [
-              {
-                "id": "unit",
-                "value": "currencyUSD"
-              },
-              {
-                "id": "decimals",
-                "value": 2
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 24,
-        "x": 0,
-        "y": 20
-      },
-      "id": 9,
-      "options": {
-        "cellHeight": "sm",
-        "footer": {
-          "countRows": false,
-          "fields": "",
-          "reducer": ["sum"],
-          "show": false
-        },
-        "showHeader": true
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "grafana-clickhouse-datasource",
-            "uid": "clickhouse-uid"
-          },
-          "format": "table",
-          "queryType": "sql",
-          "rawSql": "SELECT day, transfer_count, toFloat64(volume_raw)/1000000 as volume_usdc, unique_senders, toFloat64(avg_amount_raw)/1000000 as avg_usdc FROM payments.mv_daily_summary ORDER BY day DESC LIMIT 30",
-          "refId": "A"
-        }
-      ],
-      "title": "Daily Summary",
-      "type": "table"
+      "datasource": {"type": "grafana-clickhouse-datasource", "uid": "clickhouse-uid"},
+      "description": "Distribution of transfer count by size — micro dominates count",
+      "fieldConfig": {"defaults": {"color": {"mode": "palette-classic-by-name"}, "unit": "short"}, "overrides": [{"matcher": {"id": "byName", "options": "micro"}, "properties": [{"id": "color", "value": {"fixedColor": "#5794F2", "mode": "fixed"}}]}, {"matcher": {"id": "byName", "options": "small"}, "properties": [{"id": "color", "value": {"fixedColor": "#73BF69", "mode": "fixed"}}]}, {"matcher": {"id": "byName", "options": "medium"}, "properties": [{"id": "color", "value": {"fixedColor": "#F2CC0C", "mode": "fixed"}}]}, {"matcher": {"id": "byName", "options": "large"}, "properties": [{"id": "color", "value": {"fixedColor": "#FF780A", "mode": "fixed"}}]}, {"matcher": {"id": "byName", "options": "whale"}, "properties": [{"id": "color", "value": {"fixedColor": "#E02F44", "mode": "fixed"}}]}, {"matcher": {"id": "byName", "options": "mega"}, "properties": [{"id": "color", "value": {"fixedColor": "#8F3BB8", "mode": "fixed"}}]}]},
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 20}, "id": 11,
+      "options": {"displayLabels": ["name", "percent"], "legend": {"calcs": ["sum", "percent"], "displayMode": "list", "placement": "right", "showLegend": true, "sortBy": "Value", "sortDesc": true}, "pieType": "pie", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": true}, "sliceColors": {"micro": "#5794F2", "small": "#73BF69", "medium": "#F2CC0C", "large": "#FF780A", "whale": "#E02F44", "mega": "#8F3BB8"}, "tooltip": {"mode": "single", "sort": "desc"}},
+      "targets": [{"datasource": {"type": "grafana-clickhouse-datasource", "uid": "clickhouse-uid"}, "format": 1, "queryType": "sql", "rawSql": "SELECT size_bucket, count() AS transfer_count FROM payments.fct_transfers GROUP BY size_bucket", "refId": "A"}],
+      "title": "Transfer Count by Size Bucket", "type": "piechart"
+    },
+    {
+      "datasource": {"type": "grafana-clickhouse-datasource", "uid": "clickhouse-uid"},
+      "description": "Distribution of volume by size — mega/whale drive total volume",
+      "fieldConfig": {"defaults": {"color": {"mode": "palette-classic-by-name"}, "decimals": 2, "unit": "currencyUSD"}, "overrides": [{"matcher": {"id": "byName", "options": "micro"}, "properties": [{"id": "color", "value": {"fixedColor": "#5794F2", "mode": "fixed"}}]}, {"matcher": {"id": "byName", "options": "small"}, "properties": [{"id": "color", "value": {"fixedColor": "#73BF69", "mode": "fixed"}}]}, {"matcher": {"id": "byName", "options": "medium"}, "properties": [{"id": "color", "value": {"fixedColor": "#F2CC0C", "mode": "fixed"}}]}, {"matcher": {"id": "byName", "options": "large"}, "properties": [{"id": "color", "value": {"fixedColor": "#FF780A", "mode": "fixed"}}]}, {"matcher": {"id": "byName", "options": "whale"}, "properties": [{"id": "color", "value": {"fixedColor": "#E02F44", "mode": "fixed"}}]}, {"matcher": {"id": "byName", "options": "mega"}, "properties": [{"id": "color", "value": {"fixedColor": "#8F3BB8", "mode": "fixed"}}]}]},
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 20}, "id": 12,
+      "options": {"displayLabels": ["name", "percent"], "legend": {"calcs": ["sum", "percent"], "displayMode": "list", "placement": "right", "showLegend": true, "sortBy": "Value", "sortDesc": true}, "pieType": "pie", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": true}, "sliceColors": {"micro": "#5794F2", "small": "#73BF69", "medium": "#F2CC0C", "large": "#FF780A", "whale": "#E02F44", "mega": "#8F3BB8"}, "tooltip": {"mode": "single", "sort": "desc"}},
+      "targets": [{"datasource": {"type": "grafana-clickhouse-datasource", "uid": "clickhouse-uid"}, "format": 1, "queryType": "sql", "rawSql": "SELECT size_bucket, sum(toFloat64(amount_usdc)) AS volume_usdc FROM payments.fct_transfers GROUP BY size_bucket", "refId": "A"}],
+      "title": "Volume by Size Bucket", "type": "piechart"
+    },
+    {
+      "datasource": {"type": "grafana-clickhouse-datasource", "uid": "clickhouse-uid"},
+      "description": "Highest volume wallets sending USDC — useful for whale tracking",
+      "fieldConfig": {"defaults": {}, "overrides": [{"matcher": {"id": "byName", "options": "Volume (USDC)"}, "properties": [{"id": "unit", "value": "currencyUSD"}, {"id": "decimals", "value": 2}]}, {"matcher": {"id": "byName", "options": "Avg Size"}, "properties": [{"id": "unit", "value": "currencyUSD"}, {"id": "decimals", "value": 2}]}, {"matcher": {"id": "byName", "options": "Transfers"}, "properties": [{"id": "unit", "value": "short"}]}]},
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 28}, "id": 13,
+      "options": {"cellHeight": "sm", "footer": {"countRows": false, "fields": "", "reducer": ["sum"], "show": false}, "showHeader": true},
+      "targets": [{"datasource": {"type": "grafana-clickhouse-datasource", "uid": "clickhouse-uid"}, "format": 1, "queryType": "sql", "rawSql": "SELECT from_address AS \"Sender\", count() AS \"Transfers\", sum(toFloat64(amount_usdc)) AS \"Volume (USDC)\", avg(toFloat64(amount_usdc)) AS \"Avg Size\" FROM payments.fct_transfers GROUP BY from_address ORDER BY \"Volume (USDC)\" DESC LIMIT 10", "refId": "A"}],
+      "title": "Top 10 Senders by Volume", "type": "table"
+    },
+    {
+      "datasource": {"type": "grafana-clickhouse-datasource", "uid": "clickhouse-uid"},
+      "description": "Top destination addresses — identifies exchange/protocol hotspots",
+      "fieldConfig": {"defaults": {}, "overrides": [{"matcher": {"id": "byName", "options": "Volume (USDC)"}, "properties": [{"id": "unit", "value": "currencyUSD"}, {"id": "decimals", "value": 2}]}, {"matcher": {"id": "byName", "options": "Transfers"}, "properties": [{"id": "unit", "value": "short"}]}]},
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 28}, "id": 14,
+      "options": {"cellHeight": "sm", "footer": {"countRows": false, "fields": "", "reducer": ["sum"], "show": false}, "showHeader": true},
+      "targets": [{"datasource": {"type": "grafana-clickhouse-datasource", "uid": "clickhouse-uid"}, "format": 1, "queryType": "sql", "rawSql": "SELECT to_address AS \"Receiver\", count() AS \"Transfers\", sum(toFloat64(amount_usdc)) AS \"Volume (USDC)\" FROM payments.fct_transfers GROUP BY to_address ORDER BY \"Volume (USDC)\" DESC LIMIT 10", "refId": "A"}],
+      "title": "Top 10 Receivers by Volume", "type": "table"
+    },
+    {
+      "datasource": {"type": "grafana-clickhouse-datasource", "uid": "clickhouse-uid"},
+      "description": "Running total of USDC volume — shows growth trajectory",
+      "fieldConfig": {"defaults": {"color": {"fixedColor": "#8F3BB8", "mode": "fixed"}, "custom": {"axisGridShow": true, "axisSoftMin": 0, "fillOpacity": 85}, "decimals": 2, "unit": "currencyUSD"}, "overrides": [{"matcher": {"id": "byName", "options": "day"}, "properties": [{"id": "unit", "value": "time:MMM DD"}]}]},
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 36}, "id": 15,
+      "options": {"barRadius": 3, "barWidth": 0.8, "groupWidth": 0.7, "legend": {"displayMode": "list", "placement": "bottom", "showLegend": true}, "orientation": "auto", "showValue": "auto", "xAxis": {"format": "MMM DD", "timeUnit": "day"}, "xField": "day", "xTickLabelRotation": 0, "xTickLabelSpacing": 0},
+      "targets": [{"datasource": {"type": "grafana-clickhouse-datasource", "uid": "clickhouse-uid"}, "format": 1, "queryType": "sql", "rawSql": "SELECT day, sum(toFloat64(volume_usdc)) OVER (ORDER BY day) AS \"Cumulative Volume\" FROM payments.fct_daily_summary ORDER BY day ASC", "refId": "A"}],
+      "title": "Cumulative Volume Over 14 Days", "type": "barchart"
+    },
+    {
+      "datasource": {"type": "grafana-clickhouse-datasource", "uid": "clickhouse-uid"},
+      "description": "Day-by-day breakdown — full 14-day summary",
+      "fieldConfig": {"defaults": {}, "overrides": [{"matcher": {"id": "byName", "options": "Volume (USDC)"}, "properties": [{"id": "unit", "value": "currencyUSD"}, {"id": "decimals", "value": 2}]}, {"matcher": {"id": "byName", "options": "Avg Size"}, "properties": [{"id": "unit", "value": "currencyUSD"}, {"id": "decimals", "value": 2}]}, {"matcher": {"id": "byName", "options": "Transfers"}, "properties": [{"id": "unit", "value": "short"}]}, {"matcher": {"id": "byName", "options": "Unique Senders"}, "properties": [{"id": "unit", "value": "short"}]}]},
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 36}, "id": 16,
+      "options": {"cellHeight": "sm", "footer": {"countRows": false, "fields": "", "reducer": ["sum"], "show": false}, "showHeader": true},
+      "targets": [{"datasource": {"type": "grafana-clickhouse-datasource", "uid": "clickhouse-uid"}, "format": 1, "queryType": "sql", "rawSql": "SELECT day AS \"Date\", toFloat64(volume_usdc) AS \"Volume (USDC)\", transfer_count AS \"Transfers\", unique_senders AS \"Unique Senders\", round(toFloat64(volume_usdc) / transfer_count, 2) AS \"Avg Size\" FROM payments.fct_daily_summary ORDER BY day DESC", "refId": "A"}],
+      "title": "Daily Summary Table", "type": "table"
     }
   ],
   "refresh": "1m",
   "schemaVersion": 40,
-  "tags": ["usdc", "payments", "base"],
-  "templating": {
-    "list": []
-  },
-  "time": {
-    "from": "now-30d",
-    "to": "now"
-  },
+  "style": {"background": "#111217", "fontFamily": "Inter, DM Sans, Roboto, sans-serif", "panelBorderRadius": "8px", "theme": "dark"},
+  "tags": ["usdc", "base-chain", "defi", "production", "walletconnect"],
+  "templating": {"list": []},
+  "time": {"from": "now-14d", "to": "now"},
   "timepicker": {},
   "timezone": "browser",
-  "title": "USDC Payment Pipeline",
+  "title": "USDC Payment Analytics — Base Chain | 14-Day View",
   "uid": "usdc-pipeline-v1",
   "version": 1,
   "weekStart": ""

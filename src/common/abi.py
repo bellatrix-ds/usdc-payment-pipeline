@@ -6,11 +6,13 @@ TRANSFER_TOPIC = (
 )
 
 
-def decode_transfer_log(log: dict) -> dict:
+def decode_transfer_log(log: dict) -> dict | None:
     """Decode an ``eth_getLogs`` USDC Transfer result without web3.py."""
     topics = log["topics"]
     if len(topics) < 3:
         raise ValueError("Transfer log must contain topic0, from, and to topics")
+    if topics[0].lower() != TRANSFER_TOPIC:
+        return None
 
     return {
         "tx_hash": log["transactionHash"],
