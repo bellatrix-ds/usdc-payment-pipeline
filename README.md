@@ -96,7 +96,7 @@ flowchart LR
 
 ## Dashboard Preview
 
-![Grafana Dashboard](https://github.com/bellatrix-ds/usdc-payment-pipeline/blob/main/docs/dashboard-preview.png)
+![Grafana Dashboard](https://github.com/bellatrix-ds/usdc-payment-pipeline/blob/main/docs/dashboard-preview2.png)
 
 ## Tech Stack
 
