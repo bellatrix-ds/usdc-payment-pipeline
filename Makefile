@@ -1,4 +1,4 @@
-.PHONY: start stop restart logs init-kafka init-clickhouse ingest-latest dbt-run dbt-test test lint
+.PHONY: start stop restart logs init-kafka init-clickhouse ingest-latest backfill-14days backfill-covalent generate-historical dbt-run dbt-test test lint
 
 # ── Stack lifecycle ────────────────────────────────────────────────────────
 
@@ -42,6 +42,15 @@ init-clickhouse:
 
 ingest-latest:
 	bash scripts/ingest_latest.sh
+
+backfill-14days:
+	python scripts/backfill_14days.py
+
+backfill-covalent:
+	python scripts/backfill_covalent.py
+
+generate-historical:
+	python scripts/generate_historical.py
 
 # ── dbt ───────────────────────────────────────────────────────────────────
 

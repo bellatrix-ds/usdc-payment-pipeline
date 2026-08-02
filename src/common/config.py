@@ -16,6 +16,7 @@ def _required(name: str) -> str:
 
 
 ALCHEMY_BASE_RPC_URL: str = _required("ALCHEMY_BASE_RPC_URL")
+QUICKNODE_BASE_RPC_URL: str = os.getenv("QUICKNODE_BASE_RPC_URL", "")
 KAFKA_BOOTSTRAP_SERVERS: str = os.getenv(
     "KAFKA_BOOTSTRAP_SERVERS", "localhost:9092"
 )
