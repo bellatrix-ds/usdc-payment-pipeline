@@ -11,88 +11,9 @@ Production-grade real-time data pipeline monitoring USDC transfers on Base Chain
 
 ## Architecture
 
-```mermaid
-flowchart LR
+> 💡 Click the image below to view the full architecture diagram
 
-    %% ── External Source ──────────────────────────────────────────────────
-    ALCHEMY["🔗 Alchemy RPC\nBase Chain\neth_getLogs"]
-
-    %% ── Python Code ──────────────────────────────────────────────────────
-    subgraph SRC["src/  (Python)"]
-        direction TB
-        PROD["producer.py\nasync · 2000 blocks/batch\nexponential backoff"]
-        CONS["consumer.py\nKafka → ClickHouse writer"]
-        subgraph COMMON["common/"]
-            CONFIG["config.py\nenv vars"]
-            ABI["abi.py\ndecode from/to/amount"]
-            IDEM["idempotency.py\nevent_id = sha256(tx:idx)"]
-        end
-    end
-
-    %% ── Docker Services ──────────────────────────────────────────────────
-    subgraph DOCKER["Docker Compose  — make start"]
-        direction TB
-
-        subgraph KF["Kafka · localhost:9092"]
-            TOPIC["usdc.transfers\n6 partitions · 7d retention\npartitioned by from_address"]
-        end
-
-        subgraph CH["ClickHouse · localhost:8123"]
-            RAW["raw_transfers\nMergeTree\nappend-only landing zone"]
-            FCT_CH["fct_transfers\nReplacingMergeTree\ndeduplicates on event_id"]
-            MV["mv_hourly_activity\nmv_daily_summary\nMaterialized Views"]
-        end
-
-        subgraph AF["Airflow · localhost:8080"]
-            DAG["usdc_pipeline DAG\n⏰ runs every hour\nSLA: 90 min"]
-            T1["1· fetch_transfers"]
-            T2["2· wait_for_data"]
-            T3["3· dbt_run"]
-            T4["4· dbt_test\nhalts on failure"]
-            T1 --> T2 --> T3 --> T4
-        end
-
-        subgraph GF["Grafana · localhost:3000"]
-            DASH["Live Dashboard\n9 panels\nVolume · Count · Size buckets\nHourly · Daily · Distribution"]
-        end
-    end
-
-    %% ── dbt ──────────────────────────────────────────────────────────────
-    subgraph DBT["dbt/models/"]
-        direction TB
-        STG["staging/\nstg_transfers\nclean + standardize"]
-        INT["intermediate/\nint_transfers_enriched\n+ amount_usdc  + size_bucket\nmicro/small/medium/large/whale/mega"]
-        MART["marts/\nfct_transfers\nfct_daily_summary\nfct_hourly_activity"]
-    end
-
-    %% ── Data Flow ────────────────────────────────────────────────────────
-    ALCHEMY -->|"eth_getLogs\nbatch by block range"| PROD
-    COMMON --> PROD
-    PROD -->|"JSON message\nper Transfer event"| TOPIC
-    TOPIC -->|"at-least-once\ndelivery"| CONS
-    CONS -->|"write row"| RAW
-    RAW -->|"ReplacingMergeTree\nauto-dedup"| FCT_CH
-    RAW -->|"incremental\naggregation"| MV
-    FCT_CH -->|"SQL source"| STG
-    STG --> INT
-    INT --> MART
-    MART -->|"ClickHouse\nconnector"| DASH
-    MV -->|"pre-aggregated\nfast queries"| DASH
-    DAG -->|"PythonOperator"| T1
-    T1 -.->|"calls"| PROD
-    T3 -.->|"calls dbt run"| STG
-
-    %% ── Styling ──────────────────────────────────────────────────────────
-    style ALCHEMY fill:#f5a623,color:#000
-    style PROD fill:#4a90d9,color:#fff
-    style CONS fill:#4a90d9,color:#fff
-    style TOPIC fill:#e91e63,color:#fff
-    style RAW fill:#7b68ee,color:#fff
-    style FCT_CH fill:#7b68ee,color:#fff
-    style MV fill:#7b68ee,color:#fff
-    style DASH fill:#f26522,color:#fff
-    style DAG fill:#00bcd4,color:#000
-```
+[![Architecture Diagram](docs/architecture.png)](docs/architecture.png)
 
 ## Dashboard Preview
 
