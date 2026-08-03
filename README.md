@@ -1,6 +1,6 @@
 # USDC Payment Pipeline
 
-Production-grade real-time data pipeline monitoring USDC transfers on Base Chain — built with Python, Kafka, ClickHouse, dbt, Airflow, and Grafana.
+Production-grade real-time data pipeline monitoring USDC transfers on Base Chain - built with Python, Kafka, ClickHouse, dbt, Airflow, and Grafana.
 
 ![Python](https://img.shields.io/badge/Python-3.11+-3776AB?logo=python&logoColor=white)
 ![Kafka](https://img.shields.io/badge/Kafka-Redpanda-E91E63?logo=apachekafka&logoColor=white)
@@ -99,13 +99,13 @@ usdc-payment-pipeline/
 
 ## Data Model
 
-- **`raw_transfers`** — append-only `MergeTree` landing zone that preserves immutable source events and ingestion metadata.
-- **`fct_transfers`** — canonical `ReplacingMergeTree` fact table that deduplicates transfers using the deterministic `event_id`.
-- **`mv_hourly_activity` + `mv_daily_summary`** — materialized views that pre-aggregate operational and payment metrics for low-latency dashboard queries.
+- **`raw_transfers`** - append-only `MergeTree` landing zone that preserves immutable source events and ingestion metadata.
+- **`fct_transfers`** - canonical `ReplacingMergeTree` fact table that deduplicates transfers using the deterministic `event_id`.
+- **`mv_hourly_activity` + `mv_daily_summary`** - materialized views that pre-aggregate operational and payment metrics for low-latency dashboard queries.
 
 ## Author
 
-**Bella Bahrami — Senior Data Engineer**
+**Bella Bahrami: Senior Data Engineer**
 
 - Email: [bellabahramii@gmail.com](mailto:bellabahramii@gmail.com)
 - Telegram: [@bella_trickss](https://t.me/bella_trickss)
