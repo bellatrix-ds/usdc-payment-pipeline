@@ -11,7 +11,90 @@ Production-grade real-time data pipeline monitoring USDC transfers on Base Chain
 
 ## Architecture
 
-[🔍 View Interactive Architecture Diagram →](https://mermaid.live/edit#base64:Zmxvd2NoYXJ0IExSCgogICAgJSUg4pSA4pSAIEV4dGVybmFsIFNvdXJjZSDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIAKICAgIEFMQ0hFTVlbIvCflJcgQWxjaGVteSBSUENcbkJhc2UgQ2hhaW5cbmV0aF9nZXRMb2dzIl0KCiAgICAlJSDilIDilIAgUHl0aG9uIENvZGUg4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSACiAgICBzdWJncmFwaCBTUkNbInNyYy8gIChQeXRob24pIl0KICAgICAgICBkaXJlY3Rpb24gVEIKICAgICAgICBQUk9EWyJwcm9kdWNlci5weVxuYXN5bmMgwrcgMjAwMCBibG9ja3MvYmF0Y2hcbmV4cG9uZW50aWFsIGJhY2tvZmYiXQogICAgICAgIENPTlNbImNvbnN1bWVyLnB5XG5LYWZrYSDihpIgQ2xpY2tIb3VzZSB3cml0ZXIiXQogICAgICAgIHN1YmdyYXBoIENPTU1PTlsiY29tbW9uLyJdCiAgICAgICAgICAgIENPTkZJR1siY29uZmlnLnB5XG5lbnYgdmFycyJdCiAgICAgICAgICAgIEFCSVsiYWJpLnB5XG5kZWNvZGUgZnJvbS90by9hbW91bnQiXQogICAgICAgICAgICBJREVNWyJpZGVtcG90ZW5jeS5weVxuZXZlbnRfaWQgPSBzaGEyNTYodHg6aWR4KSJdCiAgICAgICAgZW5kCiAgICBlbmQKCiAgICAlJSDilIDilIAgRG9ja2VyIFNlcnZpY2VzIOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgAogICAgc3ViZ3JhcGggRE9DS0VSWyJEb2NrZXIgQ29tcG9zZSAg4oCUIG1ha2Ugc3RhcnQiXQogICAgICAgIGRpcmVjdGlvbiBUQgoKICAgICAgICBzdWJncmFwaCBLRlsiS2Fma2EgwrcgbG9jYWxob3N0OjkwOTIiXQogICAgICAgICAgICBUT1BJQ1sidXNkYy50cmFuc2ZlcnNcbjYgcGFydGl0aW9ucyDCtyA3ZCByZXRlbnRpb25cbnBhcnRpdGlvbmVkIGJ5IGZyb21fYWRkcmVzcyJdCiAgICAgICAgZW5kCgogICAgICAgIHN1YmdyYXBoIENIWyJDbGlja0hvdXNlIMK3IGxvY2FsaG9zdDo4MTIzIl0KICAgICAgICAgICAgUkFXWyJyYXdfdHJhbnNmZXJzXG5NZXJnZVRyZWVcbmFwcGVuZC1vbmx5IGxhbmRpbmcgem9uZSJdCiAgICAgICAgICAgIEZDVF9DSFsiZmN0X3RyYW5zZmVyc1xuUmVwbGFjaW5nTWVyZ2VUcmVlXG5kZWR1cGxpY2F0ZXMgb24gZXZlbnRfaWQiXQogICAgICAgICAgICBNVlsibXZfaG91cmx5X2FjdGl2aXR5XG5tdl9kYWlseV9zdW1tYXJ5XG5NYXRlcmlhbGl6ZWQgVmlld3MiXQogICAgICAgIGVuZAoKICAgICAgICBzdWJncmFwaCBBRlsiQWlyZmxvdyDCtyBsb2NhbGhvc3Q6ODA4MCJdCiAgICAgICAgICAgIERBR1sidXNkY19waXBlbGluZSBEQUdcbuKPsCBydW5zIGV2ZXJ5IGhvdXJcblNMQTogOTAgbWluIl0KICAgICAgICAgICAgVDFbIjHCtyBmZXRjaF90cmFuc2ZlcnMiXQogICAgICAgICAgICBUMlsiMsK3IHdhaXRfZm9yX2RhdGEiXQogICAgICAgICAgICBUM1siM8K3IGRidF9ydW4iXQogICAgICAgICAgICBUNFsiNMK3IGRidF90ZXN0XG5oYWx0cyBvbiBmYWlsdXJlIl0KICAgICAgICAgICAgVDEgLS0-IFQyIC0tPiBUMyAtLT4gVDQKICAgICAgICBlbmQKCiAgICAgICAgc3ViZ3JhcGggR0ZbIkdyYWZhbmEgwrcgbG9jYWxob3N0OjMwMDAiXQogICAgICAgICAgICBEQVNIWyJMaXZlIERhc2hib2FyZFxuOSBwYW5lbHNcblZvbHVtZSDCtyBDb3VudCDCtyBTaXplIGJ1Y2tldHNcbkhvdXJseSDCtyBEYWlseSDCtyBEaXN0cmlidXRpb24iXQogICAgICAgIGVuZAogICAgZW5kCgogICAgJSUg4pSA4pSAIGRidCDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIAKICAgIHN1YmdyYXBoIERCVFsiZGJ0L21vZGVscy8iXQogICAgICAgIGRpcmVjdGlvbiBUQgogICAgICAgIFNUR1sic3RhZ2luZy9cbnN0Z190cmFuc2ZlcnNcbmNsZWFuICsgc3RhbmRhcmRpemUiXQogICAgICAgIElOVFsiaW50ZXJtZWRpYXRlL1xuaW50X3RyYW5zZmVyc19lbnJpY2hlZFxuKyBhbW91bnRfdXNkYyAgKyBzaXplX2J1Y2tldFxubWljcm8vc21hbGwvbWVkaXVtL2xhcmdlL3doYWxlL21lZ2EiXQogICAgICAgIE1BUlRbIm1hcnRzL1xuZmN0X3RyYW5zZmVyc1xuZmN0X2RhaWx5X3N1bW1hcnlcbmZjdF9ob3VybHlfYWN0aXZpdHkiXQogICAgZW5kCgogICAgJSUg4pSA4pSAIERhdGEgRmxvdyDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIAKICAgIEFMQ0hFTVkgLS0-fCJldGhfZ2V0TG9nc1xuYmF0Y2ggYnkgYmxvY2sgcmFuZ2UifCBQUk9ECiAgICBDT01NT04gLS0-IFBST0QKICAgIFBST0QgLS0-fCJKU09OIG1lc3NhZ2VcbnBlciBUcmFuc2ZlciBldmVudCJ8IFRPUElDCiAgICBUT1BJQyAtLT58ImF0LWxlYXN0LW9uY2VcbmRlbGl2ZXJ5InwgQ09OUwogICAgQ09OUyAtLT58IndyaXRlIHJvdyJ8IFJBVwogICAgUkFXIC0tPnwiUmVwbGFjaW5nTWVyZ2VUcmVlXG5hdXRvLWRlZHVwInwgRkNUX0NICiAgICBSQVcgLS0-fCJpbmNyZW1lbnRhbFxuYWdncmVnYXRpb24ifCBNVgogICAgRkNUX0NIIC0tPnwiU1FMIHNvdXJjZSJ8IFNURwogICAgU1RHIC0tPiBJTlQKICAgIElOVCAtLT4gTUFSVAogICAgTUFSVCAtLT58IkNsaWNrSG91c2VcbmNvbm5lY3RvciJ8IERBU0gKICAgIE1WIC0tPnwicHJlLWFnZ3JlZ2F0ZWRcbmZhc3QgcXVlcmllcyJ8IERBU0gKICAgIERBRyAtLT58IlB5dGhvbk9wZXJhdG9yInwgVDEKICAgIFQxIC0uLT58ImNhbGxzInwgUFJPRAogICAgVDMgLS4tPnwiY2FsbHMgZGJ0IHJ1biJ8IFNURwoKICAgICUlIOKUgOKUgCBTdHlsaW5nIOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgAogICAgc3R5bGUgQUxDSEVNWSBmaWxsOiNmNWE2MjMsY29sb3I6IzAwMAogICAgc3R5bGUgUFJPRCBmaWxsOiM0YTkwZDksY29sb3I6I2ZmZgogICAgc3R5bGUgQ09OUyBmaWxsOiM0YTkwZDksY29sb3I6I2ZmZgogICAgc3R5bGUgVE9QSUMgZmlsbDojZTkxZTYzLGNvbG9yOiNmZmYKICAgIHN0eWxlIFJBVyBmaWxsOiM3YjY4ZWUsY29sb3I6I2ZmZgogICAgc3R5bGUgRkNUX0NIIGZpbGw6IzdiNjhlZSxjb2xvcjojZmZmCiAgICBzdHlsZSBNViBmaWxsOiM3YjY4ZWUsY29sb3I6I2ZmZgogICAgc3R5bGUgREFTSCBmaWxsOiNmMjY1MjIsY29sb3I6I2ZmZgogICAgc3R5bGUgREFHIGZpbGw6IzAwYmNkNCxjb2xvcjojMDAwCg==)
+[🔍 View full-screen interactive diagram](https://mermaid.live/edit#base64:Zmxvd2NoYXJ0IExSCgogICAgJSUg4pSA4pSAIEV4dGVybmFsIFNvdXJjZSDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIAKICAgIEFMQ0hFTVlbIvCflJcgQWxjaGVteSBSUENcbkJhc2UgQ2hhaW5cbmV0aF9nZXRMb2dzIl0KCiAgICAlJSDilIDilIAgUHl0aG9uIENvZGUg4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSACiAgICBzdWJncmFwaCBTUkNbInNyYy8gIChQeXRob24pIl0KICAgICAgICBkaXJlY3Rpb24gVEIKICAgICAgICBQUk9EWyJwcm9kdWNlci5weVxuYXN5bmMgwrcgMjAwMCBibG9ja3MvYmF0Y2hcbmV4cG9uZW50aWFsIGJhY2tvZmYiXQogICAgICAgIENPTlNbImNvbnN1bWVyLnB5XG5LYWZrYSDihpIgQ2xpY2tIb3VzZSB3cml0ZXIiXQogICAgICAgIHN1YmdyYXBoIENPTU1PTlsiY29tbW9uLyJdCiAgICAgICAgICAgIENPTkZJR1siY29uZmlnLnB5XG5lbnYgdmFycyJdCiAgICAgICAgICAgIEFCSVsiYWJpLnB5XG5kZWNvZGUgZnJvbS90by9hbW91bnQiXQogICAgICAgICAgICBJREVNWyJpZGVtcG90ZW5jeS5weVxuZXZlbnRfaWQgPSBzaGEyNTYodHg6aWR4KSJdCiAgICAgICAgZW5kCiAgICBlbmQKCiAgICAlJSDilIDilIAgRG9ja2VyIFNlcnZpY2VzIOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgAogICAgc3ViZ3JhcGggRE9DS0VSWyJEb2NrZXIgQ29tcG9zZSAg4oCUIG1ha2Ugc3RhcnQiXQogICAgICAgIGRpcmVjdGlvbiBUQgoKICAgICAgICBzdWJncmFwaCBLRlsiS2Fma2EgwrcgbG9jYWxob3N0OjkwOTIiXQogICAgICAgICAgICBUT1BJQ1sidXNkYy50cmFuc2ZlcnNcbjYgcGFydGl0aW9ucyDCtyA3ZCByZXRlbnRpb25cbnBhcnRpdGlvbmVkIGJ5IGZyb21fYWRkcmVzcyJdCiAgICAgICAgZW5kCgogICAgICAgIHN1YmdyYXBoIENIWyJDbGlja0hvdXNlIMK3IGxvY2FsaG9zdDo4MTIzIl0KICAgICAgICAgICAgUkFXWyJyYXdfdHJhbnNmZXJzXG5NZXJnZVRyZWVcbmFwcGVuZC1vbmx5IGxhbmRpbmcgem9uZSJdCiAgICAgICAgICAgIEZDVF9DSFsiZmN0X3RyYW5zZmVyc1xuUmVwbGFjaW5nTWVyZ2VUcmVlXG5kZWR1cGxpY2F0ZXMgb24gZXZlbnRfaWQiXQogICAgICAgICAgICBNVlsibXZfaG91cmx5X2FjdGl2aXR5XG5tdl9kYWlseV9zdW1tYXJ5XG5NYXRlcmlhbGl6ZWQgVmlld3MiXQogICAgICAgIGVuZAoKICAgICAgICBzdWJncmFwaCBBRlsiQWlyZmxvdyDCtyBsb2NhbGhvc3Q6ODA4MCJdCiAgICAgICAgICAgIERBR1sidXNkY19waXBlbGluZSBEQUdcbuKPsCBydW5zIGV2ZXJ5IGhvdXJcblNMQTogOTAgbWluIl0KICAgICAgICAgICAgVDFbIjHCtyBmZXRjaF90cmFuc2ZlcnMiXQogICAgICAgICAgICBUMlsiMsK3IHdhaXRfZm9yX2RhdGEiXQogICAgICAgICAgICBUM1siM8K3IGRidF9ydW4iXQogICAgICAgICAgICBUNFsiNMK3IGRidF90ZXN0XG5oYWx0cyBvbiBmYWlsdXJlIl0KICAgICAgICAgICAgVDEgLS0-IFQyIC0tPiBUMyAtLT4gVDQKICAgICAgICBlbmQKCiAgICAgICAgc3ViZ3JhcGggR0ZbIkdyYWZhbmEgwrcgbG9jYWxob3N0OjMwMDAiXQogICAgICAgICAgICBEQVNIWyJMaXZlIERhc2hib2FyZFxuOSBwYW5lbHNcblZvbHVtZSDCtyBDb3VudCDCtyBTaXplIGJ1Y2tldHNcbkhvdXJseSDCtyBEYWlseSDCtyBEaXN0cmlidXRpb24iXQogICAgICAgIGVuZAogICAgZW5kCgogICAgJSUg4pSA4pSAIGRidCDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIAKICAgIHN1YmdyYXBoIERCVFsiZGJ0L21vZGVscy8iXQogICAgICAgIGRpcmVjdGlvbiBUQgogICAgICAgIFNUR1sic3RhZ2luZy9cbnN0Z190cmFuc2ZlcnNcbmNsZWFuICsgc3RhbmRhcmRpemUiXQogICAgICAgIElOVFsiaW50ZXJtZWRpYXRlL1xuaW50X3RyYW5zZmVyc19lbnJpY2hlZFxuKyBhbW91bnRfdXNkYyAgKyBzaXplX2J1Y2tldFxubWljcm8vc21hbGwvbWVkaXVtL2xhcmdlL3doYWxlL21lZ2EiXQogICAgICAgIE1BUlRbIm1hcnRzL1xuZmN0X3RyYW5zZmVyc1xuZmN0X2RhaWx5X3N1bW1hcnlcbmZjdF9ob3VybHlfYWN0aXZpdHkiXQogICAgZW5kCgogICAgJSUg4pSA4pSAIERhdGEgRmxvdyDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIAKICAgIEFMQ0hFTVkgLS0-fCJldGhfZ2V0TG9nc1xuYmF0Y2ggYnkgYmxvY2sgcmFuZ2UifCBQUk9ECiAgICBDT01NT04gLS0-IFBST0QKICAgIFBST0QgLS0-fCJKU09OIG1lc3NhZ2VcbnBlciBUcmFuc2ZlciBldmVudCJ8IFRPUElDCiAgICBUT1BJQyAtLT58ImF0LWxlYXN0LW9uY2VcbmRlbGl2ZXJ5InwgQ09OUwogICAgQ09OUyAtLT58IndyaXRlIHJvdyJ8IFJBVwogICAgUkFXIC0tPnwiUmVwbGFjaW5nTWVyZ2VUcmVlXG5hdXRvLWRlZHVwInwgRkNUX0NICiAgICBSQVcgLS0-fCJpbmNyZW1lbnRhbFxuYWdncmVnYXRpb24ifCBNVgogICAgRkNUX0NIIC0tPnwiU1FMIHNvdXJjZSJ8IFNURwogICAgU1RHIC0tPiBJTlQKICAgIElOVCAtLT4gTUFSVAogICAgTUFSVCAtLT58IkNsaWNrSG91c2VcbmNvbm5lY3RvciJ8IERBU0gKICAgIE1WIC0tPnwicHJlLWFnZ3JlZ2F0ZWRcbmZhc3QgcXVlcmllcyJ8IERBU0gKICAgIERBRyAtLT58IlB5dGhvbk9wZXJhdG9yInwgVDEKICAgIFQxIC0uLT58ImNhbGxzInwgUFJPRAogICAgVDMgLS4tPnwiY2FsbHMgZGJ0IHJ1biJ8IFNURwoKICAgICUlIOKUgOKUgCBTdHlsaW5nIOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgAogICAgc3R5bGUgQUxDSEVNWSBmaWxsOiNmNWE2MjMsY29sb3I6IzAwMAogICAgc3R5bGUgUFJPRCBmaWxsOiM0YTkwZDksY29sb3I6I2ZmZgogICAgc3R5bGUgQ09OUyBmaWxsOiM0YTkwZDksY29sb3I6I2ZmZgogICAgc3R5bGUgVE9QSUMgZmlsbDojZTkxZTYzLGNvbG9yOiNmZmYKICAgIHN0eWxlIFJBVyBmaWxsOiM3YjY4ZWUsY29sb3I6I2ZmZgogICAgc3R5bGUgRkNUX0NIIGZpbGw6IzdiNjhlZSxjb2xvcjojZmZmCiAgICBzdHlsZSBNViBmaWxsOiM3YjY4ZWUsY29sb3I6I2ZmZgogICAgc3R5bGUgREFTSCBmaWxsOiNmMjY1MjIsY29sb3I6I2ZmZgogICAgc3R5bGUgREFHIGZpbGw6IzAwYmNkNCxjb2xvcjojMDAwCg==)
+
+```mermaid
+flowchart LR
+
+    %% ── External Source ──────────────────────────────────────────────────
+    ALCHEMY["🔗 Alchemy RPC\nBase Chain\neth_getLogs"]
+
+    %% ── Python Code ──────────────────────────────────────────────────────
+    subgraph SRC["src/  (Python)"]
+        direction TB
+        PROD["producer.py\nasync · 2000 blocks/batch\nexponential backoff"]
+        CONS["consumer.py\nKafka → ClickHouse writer"]
+        subgraph COMMON["common/"]
+            CONFIG["config.py\nenv vars"]
+            ABI["abi.py\ndecode from/to/amount"]
+            IDEM["idempotency.py\nevent_id = sha256(tx:idx)"]
+        end
+    end
+
+    %% ── Docker Services ──────────────────────────────────────────────────
+    subgraph DOCKER["Docker Compose  — make start"]
+        direction TB
+
+        subgraph KF["Kafka · localhost:9092"]
+            TOPIC["usdc.transfers\n6 partitions · 7d retention\npartitioned by from_address"]
+        end
+
+        subgraph CH["ClickHouse · localhost:8123"]
+            RAW["raw_transfers\nMergeTree\nappend-only landing zone"]
+            FCT_CH["fct_transfers\nReplacingMergeTree\ndeduplicates on event_id"]
+            MV["mv_hourly_activity\nmv_daily_summary\nMaterialized Views"]
+        end
+
+        subgraph AF["Airflow · localhost:8080"]
+            DAG["usdc_pipeline DAG\n⏰ runs every hour\nSLA: 90 min"]
+            T1["1· fetch_transfers"]
+            T2["2· wait_for_data"]
+            T3["3· dbt_run"]
+            T4["4· dbt_test\nhalts on failure"]
+            T1 --> T2 --> T3 --> T4
+        end
+
+        subgraph GF["Grafana · localhost:3000"]
+            DASH["Live Dashboard\n9 panels\nVolume · Count · Size buckets\nHourly · Daily · Distribution"]
+        end
+    end
+
+    %% ── dbt ──────────────────────────────────────────────────────────────
+    subgraph DBT["dbt/models/"]
+        direction TB
+        STG["staging/\nstg_transfers\nclean + standardize"]
+        INT["intermediate/\nint_transfers_enriched\n+ amount_usdc  + size_bucket\nmicro/small/medium/large/whale/mega"]
+        MART["marts/\nfct_transfers\nfct_daily_summary\nfct_hourly_activity"]
+    end
+
+    %% ── Data Flow ────────────────────────────────────────────────────────
+    ALCHEMY -->|"eth_getLogs\nbatch by block range"| PROD
+    COMMON --> PROD
+    PROD -->|"JSON message\nper Transfer event"| TOPIC
+    TOPIC -->|"at-least-once\ndelivery"| CONS
+    CONS -->|"write row"| RAW
+    RAW -->|"ReplacingMergeTree\nauto-dedup"| FCT_CH
+    RAW -->|"incremental\naggregation"| MV
+    FCT_CH -->|"SQL source"| STG
+    STG --> INT
+    INT --> MART
+    MART -->|"ClickHouse\nconnector"| DASH
+    MV -->|"pre-aggregated\nfast queries"| DASH
+    DAG -->|"PythonOperator"| T1
+    T1 -.->|"calls"| PROD
+    T3 -.->|"calls dbt run"| STG
+
+    %% ── Styling ──────────────────────────────────────────────────────────
+    style ALCHEMY fill:#f5a623,color:#000
+    style PROD fill:#4a90d9,color:#fff
+    style CONS fill:#4a90d9,color:#fff
+    style TOPIC fill:#e91e63,color:#fff
+    style RAW fill:#7b68ee,color:#fff
+    style FCT_CH fill:#7b68ee,color:#fff
+    style MV fill:#7b68ee,color:#fff
+    style DASH fill:#f26522,color:#fff
+    style DAG fill:#00bcd4,color:#000
+```
 
 ## Dashboard Preview
 
